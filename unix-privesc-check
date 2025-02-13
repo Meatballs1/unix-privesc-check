@@ -778,14 +778,14 @@ fi
 if [ -r "$SHADOW" ]; then
 	echo "Checking for accounts with no passwords"
 	if [ "$OS" = "linux" ]; then
-		passwd -S -a | while read LINE
+		while read LINE
 		do
-			USER=`echo "$LINE" | awk '{print $1}'`
-			STATUS=`echo "$LINE" | awk '{print $2}'`
+			USERNAME=`echo "$LINE" | cut -f 1 -d ":"`
+			STATUS=`passwd -s $USERNAME | awk '{print $2}'`
 			if [ "$STATUS" = "NP" ]; then
-				echo "[UPC015] WARNING: User $USER doesn't have a password"
+				echo "[UPC015] WARNING: User $USERNAME doesn't have a password"
 			fi
-		done
+		done < $SHADOW
 	elif [ "$OS" = "solaris" ]; then
 		passwd -s -a | while read LINE
 		do
