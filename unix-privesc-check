@@ -781,7 +781,7 @@ if [ -r "$SHADOW" ]; then
 		while read LINE
 		do
 			USERNAME=`echo "$LINE" | cut -f 1 -d ":"`
-			STATUS=`passwd -s $USERNAME | awk '{print $2}'`
+			STATUS=`passwd -S $USERNAME | awk '{print $2}'`
 			if [ "$STATUS" = "NP" ]; then
 				echo "[UPC015] WARNING: User $USERNAME doesn't have a password"
 			fi
